@@ -13,6 +13,7 @@
       background: #f9f9f9;
       color: #222;
       direction: rtl;
+      text-align: right;
     }
     header {
       display: flex;
@@ -142,187 +143,49 @@
       color: #666;
       text-align: center;
     }
-    /* English styles */
-    body[lang="en"] {
-      direction: ltr;
-      text-align: left;
-    }
-    body[lang="en"] header {
-      flex-direction: row-reverse;
-    }
   </style>
 </head>
-<body lang="ar">
+<body>
   <header>
-    <h1 id="site-title">إيجي جادجيتس</h1>
-    <button class="lang-toggle" id="toggle-lang">English</button>
+    <h1>إيجي جادجيتس</h1>
   </header>
 
   <main id="products-container">
-    <!-- Products inserted by JS -->
-  </main>
-
-  <section id="cart">
-    <h2>سلة التسوق</h2>
-    <ul id="cart-list">
-      <li>السلة فارغة</li>
-    </ul>
-    <div id="cart-buttons">
-      <button id="clear-cart">تفريغ السلة</button>
-      <button id="order-btn">اطلب عبر واتساب</button>
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=400&auto=format&fit=crop" alt="باور بانك 20000 مللي أمبير" />
+      <div class="product-info">
+        <h3 class="product-title">باور بانك 20000 مللي أمبير</h3>
+        <p class="product-desc">شاحن متنقل عالي السعة مع شحن سريع.</p>
+        <p class="product-price">399 EGP</p>
+        <button class="add-cart-btn" onclick="alert('تمت الإضافة للسلة')">أضف للسلة</button>
+      </div>
     </div>
-  </section>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1580894908361-7f8a4b6f2a9f?q=80&w=400&auto=format&fit=crop" alt="سماعات لاسلكية بتقليل الضوضاء" />
+      <div class="product-info">
+        <h3 class="product-title">سماعات لاسلكية بتقليل الضوضاء</h3>
+        <p class="product-desc">سماعات مدمجة مع إلغاء الضوضاء وعمر بطارية طويل.</p>
+        <p class="product-price">699 EGP</p>
+        <button class="add-cart-btn" onclick="alert('تمت الإضافة للسلة')">أضف للسلة</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1518444023176-9bd1f2a0a5b9?q=80&w=400&auto=format&fit=crop" alt="ساعة ذكية لمتابعة اللياقة" />
+      <div class="product-info">
+        <h3 class="product-title">ساعة ذكية لمتابعة اللياقة</h3>
+        <p class="product-desc">ساعة ذكية مع تتبع النشاط والصحة.</p>
+        <p class="product-price">899 EGP</p>
+        <button class="add-cart-btn" onclick="alert('تمت الإضافة للسلة')">أضف للسلة</button>
+      </div>
+    </div>
+  </main>
 
   <footer>
     <p>
       &copy; 2025 EgyGadgets - الشحن داخل مصر - فودافون كاش: 01022043442 - إنستا باي: 01068718276
     </p>
   </footer>
-
-  <script>
-    // Data for products in Arabic and English
-    const PRODUCTS = [
-      {
-        id: "powerbank",
-        title_ar: "باور بانك 20000 مللي أمبير",
-        title_en: "Power Bank 20000mAh",
-        desc_ar: "شاحن متنقل عالي السعة مع شحن سريع.",
-        desc_en: "High-capacity portable charger with fast charging.",
-        price: 399,
-        img: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=400&auto=format&fit=crop",
-      },
-      {
-        id: "earbuds",
-        title_ar: "سماعات لاسلكية بتقليل الضوضاء",
-        title_en: "Wireless Noise Cancelling Earbuds",
-        desc_ar: "سماعات مدمجة مع إلغاء الضوضاء وعمر بطارية طويل.",
-        desc_en: "Compact earbuds with noise cancelling and long battery life.",
-        price: 699,
-        img: "https://images.unsplash.com/photo-1580894908361-7f8a4b6f2a9f?q=80&w=400&auto=format&fit=crop",
-      },
-      {
-        id: "smartwatch",
-        title_ar: "ساعة ذكية لمتابعة اللياقة",
-        title_en: "Fitness Smartwatch",
-        desc_ar: "ساعة ذكية مع تتبع النشاط والصحة.",
-        desc_en: "Smartwatch with activity and health tracking.",
-        price: 899,
-        img: "https://images.unsplash.com/photo-1518444023176-9bd1f2a0a5b9?q=80&w=400&auto=format&fit=crop",
-      }
-    ];
-
-    // Initial language state: Arabic
-    let currentLang = "ar";
-
-    // Cart array
-    let cart = [];
-
-    // Elements
-    const toggleLangBtn = document.getElementById("toggle-lang");
-    const productsContainer = document.getElementById("products-container");
-    const cartList = document.getElementById("cart-list");
-    const clearCartBtn = document.getElementById("clear-cart");
-    const orderBtn = document.getElementById("order-btn");
-    const siteTitle = document.getElementById("site-title");
-
-    // Render products
-    function renderProducts() {
-      productsContainer.innerHTML = "";
-      PRODUCTS.forEach(p => {
-        const productDiv = document.createElement("div");
-        productDiv.className = "product";
-
-        productDiv.innerHTML = `
-          <img src="${p.img}" alt="${currentLang === "ar" ? p.title_ar : p.title_en}" />
-          <div class="product-info">
-            <h3 class="product-title">${currentLang === "ar" ? p.title_ar : p.title_en}</h3>
-            <p class="product-desc">${currentLang === "ar" ? p.desc_ar : p.desc_en}</p>
-            <p class="product-price">${p.price} EGP</p>
-            <button class="add-cart-btn">${currentLang === "ar" ? "أضف للسلة" : "Add to cart"}</button>
-          </div>
-        `;
-
-        const addBtn = productDiv.querySelector("button");
-        addBtn.onclick = () => addToCart(p);
-
-        productsContainer.appendChild(productDiv);
-      });
-    }
-
-    // Render cart
-    function renderCart() {
-      cartList.innerHTML = "";
-      if (cart.length === 0) {
-        const li = document.createElement("li");
-        li.textContent = currentLang === "ar" ? "السلة فارغة" : "Cart is empty";
-        cartList.appendChild(li);
-      } else {
-        cart.forEach((item, i) => {
-          const li = document.createElement("li");
-          li.textContent = `${currentLang === "ar" ? item.title_ar : item.title_en} - ${item.price} EGP`;
-          cartList.appendChild(li);
-        });
-      }
-    }
-
-    // Add product to cart
-    function addToCart(product) {
-      cart.push(product);
-      renderCart();
-      alert(currentLang === "ar" ? "تمت الإضافة للسلة" : "Added to cart");
-    }
-
-    // Clear cart
-    clearCartBtn.onclick = () => {
-      cart = [];
-      renderCart();
-    };
-
-    // Order via WhatsApp
-    orderBtn.onclick = () => {
-      if (cart.length === 0) {
-        alert(currentLang === "ar" ? "السلة فارغة" : "Cart is empty");
-        return;
-      }
-      let msg = currentLang === "ar" ? "طلب من EgyGadgets:\n" : "Order from EgyGadgets:\n";
-      cart.forEach((item, idx) => {
-        msg += `${idx + 1}. ${currentLang === "ar" ? item.title_ar : item.title_en} - ${item.price} EGP\n`;
-      });
-      msg += currentLang === "ar"
-        ? "\nطريقة الدفع: فودافون كاش أو إنستا باي\nرقم فودافون كاش: 01022043442\nرقم إنستا باي: 01068718276\nيرجى إرسال إيصال الدفع عبر الواتساب."
-        : "\nPayment method: Vodafone Cash or InstaPay\nVodafone Cash number: 01022043442\nInstaPay number: 01068718276\nPlease send payment receipt via WhatsApp.";
-
-      const phoneNumber = "+201022043442"; // Vodafone Cash number with country code
-      const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`;
-      window.open(waUrl, "_blank");
-    };
-
-    // Toggle language
-    toggleLangBtn.onclick = () => {
-      if (currentLang === "ar") {
-        currentLang = "en";
-        document.body.lang = "en";
-        document.body.dir = "ltr";
-        toggleLangBtn.textContent = "العربية";
-        siteTitle.textContent = "EgyGadgets";
-        document.querySelector("header").style.flexDirection = "row-reverse";
-        document.body.style.textAlign = "left";
-      } else {
-        currentLang = "ar";
-        document.body.lang = "ar";
-        document.body.dir = "rtl";
-        toggleLangBtn.textContent = "English";
-        siteTitle.textContent = "إيجي جادجيتس";
-        document.querySelector("header").style.flexDirection = "row";
-        document.body.style.textAlign = "right";
-      }
-      renderProducts();
-      renderCart();
-    };
-
-    // Initial render
-    renderProducts();
-    renderCart();
-  </script>
 </body>
 </html>
